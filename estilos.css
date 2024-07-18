@@ -18,9 +18,12 @@ canvas {
 
 #registro {
     border: 1px solid black;
+    font-family: Consolas, 'Courier New', Courier, monospace;
     width: 800px;
     height: 800px;
     flex-grow: 0;
     flex-shrink: 0;
-    font-family: Consolas, 'Courier New', Courier, monospace;
+    padding: 4px;
+    overflow-x: hidden;
+    overflow-y: auto;
 }

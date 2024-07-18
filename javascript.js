@@ -3,6 +3,7 @@ window.addEventListener("DOMContentLoaded", () =>{
     console.log("cargado");
 
     // FUNCIONES
+    //#region Generación inicial
     function GenerarCuadrado(ctx, posx, posy, alto, ancho, color){
         ctx.beginPath();
         ctx.rect(posx, posy, ancho, alto);
@@ -23,7 +24,7 @@ window.addEventListener("DOMContentLoaded", () =>{
         let fecha = new Date();
         let hora = fecha.toLocaleTimeString();
 
-        return hora;
+        return hora + " ";
     }
 
     function LimpiarRegistro(){
@@ -34,8 +35,9 @@ window.addEventListener("DOMContentLoaded", () =>{
 
     function EscribirEnRegistro(texto){
         let registro = document.getElementById("registro");
+        let linea = ObtenerHora() + texto + "\n";
 
-        registro.innerHTML += "\n" + ObtenerHora() + " " + texto;
+        registro.innerHTML += linea + "<br>";
     }
 
     function GenerarRejilla(anchoRejilla, ancho, alto){
@@ -55,13 +57,21 @@ window.addEventListener("DOMContentLoaded", () =>{
         // Generamos los cuadrados
         for(let i = 0; i < anchoRejilla; i++){
             for(let j = 0; j < anchoRejilla; j++){
-                GenerarCuadrado(ctx, posx, posy, ancho, alto, ObtenerColor())
+                //EscribirEnRegistro("Generando casilla " + i + ", " + j);  // Esto ralentiza notablemente la generación, sólo para pruebas
+                GenerarCuadrado(ctx, posx, posy, ancho, alto, ObtenerColor());
                 posy += alto;
             }
             posx += ancho;
             posy = 0;
         }
     }
+    //#endregion Generación inicial
+
+    //#region Evaluar y guardar estado
+    function EvaluarEstadoDeCelula(){
+        
+    }
+    //#endregion Evaluar y guardar estado
 
     //ACCIONES
     //GenerarCuadrado(0, 0, 20, 20);
