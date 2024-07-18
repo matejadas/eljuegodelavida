@@ -19,7 +19,28 @@ window.addEventListener("DOMContentLoaded", () =>{
         return ret;
     }
 
+    function ObtenerHora(){
+        let fecha = new Date();
+        let hora = fecha.toLocaleTimeString();
+
+        return hora;
+    }
+
+    function LimpiarRegistro(){
+        let registro = document.getElementById("registro");
+
+        registro.innerHTML = "";
+    }
+
+    function EscribirEnRegistro(texto){
+        let registro = document.getElementById("registro");
+
+        registro.innerHTML += "\n" + ObtenerHora() + " " + texto;
+    }
+
     function GenerarRejilla(anchoRejilla, ancho, alto){
+        LimpiarRegistro();
+        EscribirEnRegistro("Generando rejilla...")
         // Se considerará una rejilla cuadrada
         
         const canvas = document.getElementById("canvas");
@@ -48,7 +69,7 @@ window.addEventListener("DOMContentLoaded", () =>{
     //EVENTOS
     document.addEventListener("click", ev => {
         if(ev.target.matches("#nueva")){
-            GenerarRejilla(40, 20, 20);
+            GenerarRejilla(80, 10, 10);
         }
     });
 });

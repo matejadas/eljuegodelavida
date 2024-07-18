@@ -1,3 +1,26 @@
+body {
+    background-color: #404040;
+    color: whitesmoke;
+}
+
+#contenedor {
+    display: flex;
+    justify-content: space-between;
+}
+
 canvas {
     border: 1px solid black;
+    /*width: 800px;
+    height: 800px;*/
+    flex-grow: 0;
+    flex-shrink: 0;
+}
+
+#registro {
+    border: 1px solid black;
+    width: 800px;
+    height: 800px;
+    flex-grow: 0;
+    flex-shrink: 0;
+    font-family: Consolas, 'Courier New', Courier, monospace;
 }
