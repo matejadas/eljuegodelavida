@@ -16,6 +16,13 @@ canvas {
     flex-shrink: 0;
 }
 
+#info {
+    border: 1px solid black;
+    width: 200px;
+    height: 200px;
+    font-family: Consolas, 'Courier New', Courier, monospace;
+}
+
 #registro {
     border: 1px solid black;
     font-family: Consolas, 'Courier New', Courier, monospace;

@@ -1,23 +1,33 @@
 // Inicialización
 window.addEventListener("DOMContentLoaded", () =>{
-    console.log("cargado");
+    let numGeneracion = 0;
+    let rejilla = [];
+    const anchoRejilla = 5;
+    const anchoCelda = 160;
+    const altoCelda = 160;
+    let colorMuerta = "black";
+    let colorViva = "whitesmoke";
 
     // FUNCIONES
     //#region Generación inicial
-    function GenerarCuadrado(ctx, posx, posy, alto, ancho, color){
+
+    function ObtenerEstadoAleatorio(){
+        let ret = "";
+
+        let estados = [false, true];
+
+        ret = estados[Math.floor(Math.random() * 2)];
+
+        return ret;
+    }
+
+    function GenerarCuadrado(ctx, posx, posy, ancho, alto, estado){
+        let color = estado ? colorViva : colorMuerta;
+
         ctx.beginPath();
         ctx.rect(posx, posy, ancho, alto);
         ctx.fillStyle = color;
         ctx.fill();
-    }
-
-    function ObtenerColor(){
-        let ret = "";
-        let colores = ["red", "green"];
-
-        ret = colores[Math.floor(Math.random() * 2)];
-
-        return ret;
     }
 
     function ObtenerHora(){
@@ -40,10 +50,18 @@ window.addEventListener("DOMContentLoaded", () =>{
         registro.innerHTML += linea + "<br>";
     }
 
+    function EscribirGeneracion(){
+        let spanGeneracion = document.getElementById("numGeneracion");
+        
+        spanGeneracion.innerHTML = numGeneracion;
+    }
+
     function GenerarRejilla(anchoRejilla, ancho, alto){
         LimpiarRegistro();
         EscribirEnRegistro("Generando rejilla...")
         // Se considerará una rejilla cuadrada
+
+        EscribirGeneracion();
         
         const canvas = document.getElementById("canvas");
         const ctx = canvas.getContext("2d");
@@ -56,14 +74,20 @@ window.addEventListener("DOMContentLoaded", () =>{
 
         // Generamos los cuadrados
         for(let i = 0; i < anchoRejilla; i++){
+            let columna = [];
+
             for(let j = 0; j < anchoRejilla; j++){
                 //EscribirEnRegistro("Generando casilla " + i + ", " + j);  // Esto ralentiza notablemente la generación, sólo para pruebas
-                GenerarCuadrado(ctx, posx, posy, ancho, alto, ObtenerColor());
+                let estado = ObtenerEstadoAleatorio();
+
+                GenerarCuadrado(ctx, posx, posy, ancho, alto,estado);
+                columna.push(estado);
                 posy += alto;
             }
+            rejilla.push(columna);
             posx += ancho;
             posy = 0;
-        }
+        }        
     }
     //#endregion Generación inicial
 
@@ -78,8 +102,9 @@ window.addEventListener("DOMContentLoaded", () =>{
 
     //EVENTOS
     document.addEventListener("click", ev => {
-        if(ev.target.matches("#nueva")){
-            GenerarRejilla(80, 10, 10);
+        if(ev.target.matches("#rejilla")){
+            numGeneracion = 0;
+            GenerarRejilla(anchoRejilla, anchoCelda, altoCelda);
         }
     });
 });

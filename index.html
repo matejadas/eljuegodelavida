@@ -9,11 +9,12 @@
 <body>
     <h1>El juego de la vida</h1>
     <p>
-        <input type="button" id="nueva" value="Generar nueva rejilla">
+        <input type="button" id="rejilla" value="Crear nueva rejilla">
         <input type="button" id="turno" value="Nueva generación">
     </p>
     <div id="contenedor">
         <canvas id="canvas" width="800" height="800"></canvas>
+        <div id="info">Generación <span id="numGeneracion"></span></div>
         <div id="registro"></div>
     </div>
     <script src="javascript.js"></script>
