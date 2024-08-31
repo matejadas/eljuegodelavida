@@ -1,7 +1,7 @@
 // Inicialización
 window.addEventListener("DOMContentLoaded", () =>{
     let numGeneracion = 0;
-    let rejilla = [];
+    let rejilla2d = []; // Array bidimensional
     const anchoRejilla = 5;
     const anchoCelda = 160;
     const altoCelda = 160;
@@ -84,16 +84,110 @@ window.addEventListener("DOMContentLoaded", () =>{
                 columna.push(estado);
                 posy += alto;
             }
-            rejilla.push(columna);
+            rejilla2d.push(columna);
             posx += ancho;
             posy = 0;
-        }        
+        }
+
+        console.log("Rejilla generada: ");
+        console.table(rejilla2d);
     }
     //#endregion Generación inicial
 
     //#region Evaluar y guardar estado
-    function EvaluarEstadoDeCelula(){
+    function EvaluarCelulaVecina(rejilla2d){
+        let ret = false;
+
+        try{
+            ret = rejilla2d;
+        } catch (err){
+            console.log(err);
+        }
         
+        return ret;
+    }
+
+    function EvaluarEstadoDeCelulas(anchoRejilla){
+        // Células alrededor
+        let vivas = 0;
+        let muertas = 0;
+        let estados2d = [];
+
+        for(let i = 0; i < anchoRejilla; i++){
+            let columnaEstados = [anchoRejilla];
+
+            for(let j = 0; j < anchoRejilla; j++){
+                // Evaluamos las celdas vecinas
+                try{
+                    if(EvaluarCelulaVecina(rejilla2d[i-1][j-1])) vivas++;
+                    else muertas++;
+                } catch(err){
+                    muertas++;
+                }
+
+                try{
+                    if(EvaluarCelulaVecina(rejilla2d[i-1][j])) vivas++;
+                    else muertas++;
+                } catch (err) {
+                    muertas++;
+                }
+
+                try{
+                    if(EvaluarCelulaVecina(rejilla2d[i-1][j+1])) vivas++;
+                    else muertas++;
+                } catch (err){
+                    muertas++;
+                }
+                try{
+                    if(EvaluarCelulaVecina(rejilla2d[i][j-1])) vivas++;
+                    else muertas++;
+                } catch (err){
+                    muertas++;
+                }
+                try{
+                    if(EvaluarCelulaVecina(rejilla2d[i][j+1])) vivas++;
+                    else muertas++;
+
+                } catch (err){
+                    muertas++;
+                }
+                try{
+                    if(EvaluarCelulaVecina(rejilla2d[i+1][j-1])) vivas++;
+                    else muertas++;
+                } catch (err){
+                    muertas++;
+                }
+                try{
+                    if(EvaluarCelulaVecina(rejilla2d[i+1][j])) vivas++;
+                    else muertas++;
+                } catch (err){
+                    muertas++;
+                }
+                try{
+                    if(EvaluarCelulaVecina(rejilla2d[i+1][j+1])) vivas++;
+                    else muertas++;
+                } catch (err){
+                    muertas++;
+                }
+
+                console.log("Vivas: " + vivas);
+                //console.log("Muertas: " + muertas);
+
+                // Decidimos estado de la célula en cuestión
+                if(vivas == 2 || vivas == 3) columnaEstados[j] = true;
+                else columnaEstados[j] = false;
+
+                console.log("columnaEstados[" + j + "]: " + columnaEstados[j]);
+
+                vivas = 0;
+                muertas = 0
+            }
+
+            estados2d.push(columnaEstados);
+        }
+
+        console.log("Rejilla estados: ");
+        console.table(estados2d);
     }
     //#endregion Evaluar y guardar estado
 
@@ -105,6 +199,10 @@ window.addEventListener("DOMContentLoaded", () =>{
         if(ev.target.matches("#rejilla")){
             numGeneracion = 0;
             GenerarRejilla(anchoRejilla, anchoCelda, altoCelda);
+        }
+
+        if(ev.target.matches("#turno")){
+            EvaluarEstadoDeCelulas(anchoRejilla);
         }
     });
 });
