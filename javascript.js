@@ -9,7 +9,7 @@ window.addEventListener("DOMContentLoaded", () =>{
     let colorViva = "whitesmoke";
 
     // FUNCIONES
-    //#region Generación inicial
+    // #region Generación inicial
 
     function ObtenerEstadoAleatorio(){
         let ret = "";
@@ -58,6 +58,8 @@ window.addEventListener("DOMContentLoaded", () =>{
 
     function GenerarRejilla(anchoRejilla, ancho, alto){
         LimpiarRegistro();
+        rejilla2d = [];
+        numGeneracion = 0;
         EscribirEnRegistro("Generando rejilla...")
         // Se considerará una rejilla cuadrada
 
@@ -92,9 +94,9 @@ window.addEventListener("DOMContentLoaded", () =>{
         console.log("Rejilla generada: ");
         console.table(rejilla2d);
     }
-    //#endregion Generación inicial
+    // #endregion Generación inicial
 
-    //#region Evaluar y guardar estado
+    // #region Evaluar y guardar estado
     function EvaluarCelulaVecina(rejilla2d){
         let ret = false;
 
@@ -110,7 +112,6 @@ window.addEventListener("DOMContentLoaded", () =>{
     function EvaluarEstadoDeCelulas(anchoRejilla){
         // Células alrededor
         let vivas = 0;
-        let muertas = 0;
         let estados2d = [];
 
         for(let i = 0; i < anchoRejilla; i++){
@@ -118,60 +119,16 @@ window.addEventListener("DOMContentLoaded", () =>{
 
             for(let j = 0; j < anchoRejilla; j++){
                 // Evaluamos las celdas vecinas
-                try{
-                    if(EvaluarCelulaVecina(rejilla2d[i-1][j-1])) vivas++;
-                    else muertas++;
-                } catch(err){
-                    muertas++;
-                }
-
-                try{
-                    if(EvaluarCelulaVecina(rejilla2d[i-1][j])) vivas++;
-                    else muertas++;
-                } catch (err) {
-                    muertas++;
-                }
-
-                try{
-                    if(EvaluarCelulaVecina(rejilla2d[i-1][j+1])) vivas++;
-                    else muertas++;
-                } catch (err){
-                    muertas++;
-                }
-                try{
-                    if(EvaluarCelulaVecina(rejilla2d[i][j-1])) vivas++;
-                    else muertas++;
-                } catch (err){
-                    muertas++;
-                }
-                try{
-                    if(EvaluarCelulaVecina(rejilla2d[i][j+1])) vivas++;
-                    else muertas++;
-
-                } catch (err){
-                    muertas++;
-                }
-                try{
-                    if(EvaluarCelulaVecina(rejilla2d[i+1][j-1])) vivas++;
-                    else muertas++;
-                } catch (err){
-                    muertas++;
-                }
-                try{
-                    if(EvaluarCelulaVecina(rejilla2d[i+1][j])) vivas++;
-                    else muertas++;
-                } catch (err){
-                    muertas++;
-                }
-                try{
-                    if(EvaluarCelulaVecina(rejilla2d[i+1][j+1])) vivas++;
-                    else muertas++;
-                } catch (err){
-                    muertas++;
-                }
+                if(EvaluarCelulaVecina(rejilla2d[i-1][j-1])) vivas++;
+                if(EvaluarCelulaVecina(rejilla2d[i-1][j])) vivas++;
+                if(EvaluarCelulaVecina(rejilla2d[i-1][j+1])) vivas++;
+                if(EvaluarCelulaVecina(rejilla2d[i][j-1])) vivas++;
+                if(EvaluarCelulaVecina(rejilla2d[i][j+1])) vivas++;
+                if(EvaluarCelulaVecina(rejilla2d[i+1][j-1])) vivas++;
+                if(EvaluarCelulaVecina(rejilla2d[i+1][j])) vivas++;
+                if(EvaluarCelulaVecina(rejilla2d[i+1][j+1])) vivas++;
 
                 console.log("Vivas: " + vivas);
-                //console.log("Muertas: " + muertas);
 
                 // Decidimos estado de la célula en cuestión
                 if(vivas == 2 || vivas == 3) columnaEstados[j] = true;
@@ -180,7 +137,6 @@ window.addEventListener("DOMContentLoaded", () =>{
                 console.log("columnaEstados[" + j + "]: " + columnaEstados[j]);
 
                 vivas = 0;
-                muertas = 0
             }
 
             estados2d.push(columnaEstados);
@@ -189,15 +145,14 @@ window.addEventListener("DOMContentLoaded", () =>{
         console.log("Rejilla estados: ");
         console.table(estados2d);
     }
-    //#endregion Evaluar y guardar estado
+    // #endregion Evaluar y guardar estado
 
-    //ACCIONES
-    //GenerarCuadrado(0, 0, 20, 20);
+    // ACCIONES
+    // GenerarCuadrado(0, 0, 20, 20);
 
-    //EVENTOS
+    // EVENTOS
     document.addEventListener("click", ev => {
         if(ev.target.matches("#rejilla")){
-            numGeneracion = 0;
             GenerarRejilla(anchoRejilla, anchoCelda, altoCelda);
         }
 
